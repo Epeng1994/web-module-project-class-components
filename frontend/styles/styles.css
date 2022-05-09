@@ -83,3 +83,14 @@ ul, form {
 .todo:hover {
   cursor: pointer;
 }
+
+
+
+.completed{
+  color:red;
+  display: block;
+}
+
+.hideCompleted{
+  display:none;
+}

@@ -4,7 +4,11 @@ export default class Form extends React.Component {
   render() {
     return (
       <div>
-        Form
+        <form onSubmit = {this.props.onMessageSubmit}>
+          <input placeholder = 'Type Todo' name = 'message' onChange = {this.props.onMessageChange} value = {this.props.messageValue}></input>
+          <button type='submit'>Submit</button>
+        </form>
+        <button onClick = {this.props.hideCompleted}>Hide completed</button>
       </div>
     )
   }
