@@ -1,22 +1,42 @@
 import React, {Component} from 'react'
 import Form from './Form'
 import TodoList from './TodoList.js'
-
+import * as yup from 'yup'
 
 import '../styles/styles.css'
+
+
+const schema = yup.object().shape({
+  message: yup.string().required('You don\'t have anything else to do?'),
+})
+
+
 
 export default class App extends Component {
   constructor(){
     super();
     this.state={
       message:'',
-      toDo:['Eat', 'Sleep']
+      toDo:['Eat', 'Sleep'],
+      errors:''
     }
+  }
+
+  validation = (name, value) =>{
+    yup.reach(schema, name).validate(value)
+      .then(r=>{
+        //console.log('good')
+        this.setState({errors:''})
+      })
+      .catch(err=>{
+        this.setState({errors:err.errors[0]})
+      })
   }
 
   onMessageChange = (e) =>{
     this.setState({message:e.target.value})
     //console.log(this.state)
+    this.validation('message', e.target.value)
   }
 
   onMessageSubmit = (e) =>{
@@ -24,7 +44,7 @@ export default class App extends Component {
     let clone = [...this.state.toDo]
     clone.push(this.state.message)
     this.setState({message: '', toDo:clone})
-    //console.log(this.state)
+    console.log(this.state)
   }
 
   onCompleted = e => {
@@ -38,12 +58,15 @@ export default class App extends Component {
     //console.log(select)
   }
 
+
+
+
   render() {
     return (
       <div>
         Todos:
         <TodoList onCompleted ={this.onCompleted} toDo = {this.state.toDo}/>
-        <Form  hideCompleted = {this.hideCompleted} onMessageChange ={this.onMessageChange} onMessageSubmit = {this.onMessageSubmit} messageValue ={this.state.message}/>   
+        <Form errors = {this.state.errors} hideCompleted = {this.hideCompleted} onMessageChange ={this.onMessageChange} onMessageSubmit = {this.onMessageSubmit} messageValue ={this.state.message}/>   
       </div>
     )
   }
