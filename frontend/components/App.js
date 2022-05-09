@@ -3,7 +3,7 @@ import Form from './Form'
 import TodoList from './TodoList.js'
 import * as yup from 'yup'
 
-import '../styles/styles.css'
+
 
 
 const schema = yup.object().shape({
