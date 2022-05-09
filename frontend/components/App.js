@@ -27,6 +27,9 @@ export default class App extends Component {
       .then(r=>{
         //console.log('good')
         this.setState({errors:''})
+        let clone = [...this.state.toDo]
+        clone.push(this.state.message)
+        this.setState({message: '', toDo:clone})
       })
       .catch(err=>{
         this.setState({errors:err.errors[0]})
@@ -36,15 +39,13 @@ export default class App extends Component {
   onMessageChange = (e) =>{
     this.setState({message:e.target.value})
     //console.log(this.state)
-    this.validation('message', e.target.value)
+    
   }
 
   onMessageSubmit = (e) =>{
     e.preventDefault();
-    let clone = [...this.state.toDo]
-    clone.push(this.state.message)
-    this.setState({message: '', toDo:clone})
     console.log(this.state)
+    this.validation('message', this.state.message)
   }
 
   onCompleted = e => {
